@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -36,13 +37,15 @@ public class Dino {
         // Add the listeners
         jda.addEventListener(new Roles());
         jda.addEventListener(new Talk());
+        jda.addEventListener(new Rizz());
 
         // Register the commands
         jda.updateCommands().addCommands(
                 Commands.slash("talk", "Talk in the bot's name")
                         .addOption(OptionType.STRING, "message", "The content of the message", true)
                         .addOption(OptionType.CHANNEL, "channel", "The channel to send the message in", false)
-                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)),
+                Commands.context(Command.Type.USER, "Rizz it up")
         ).queue();
 
         // Set the status
