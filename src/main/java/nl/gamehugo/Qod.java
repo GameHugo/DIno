@@ -33,7 +33,7 @@ public class Qod {
                         foundOld = true;
                         Calendar calendar = Calendar.getInstance();
                         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        if(!(historyMessage.getTimeCreated().getDayOfMonth()+1 < dayOfMonth)) continue;
+                        if(!(historyMessage.getTimeCreated().getDayOfMonth()+1 < dayOfMonth)) continue; // +1 because its weird or something
                         try {
                             channel.sendMessageEmbeds(newQuote().build()).queue();
                             sendNew = true;
@@ -63,9 +63,6 @@ public class Qod {
         InputStream responseStream = connection.getInputStream();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(responseStream);
-        System.out.println(root.path("contents").path("quotes").path(0).path("title").asText());
-        System.out.println(root.path("contents").path("quotes").path(0).path("quote").asText());
-        System.out.println(root.path("contents").path("quotes").path(0).path("author").asText());
         String title = root.path("contents").path("quotes").path(0).path("title").asText();
         String quote = root.path("contents").path("quotes").path(0).path("quote").asText();
         String author = root.path("contents").path("quotes").path(0).path("author").asText();
