@@ -16,6 +16,11 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import java.util.*;
 
 public class Dino {
+    /**
+      Just a thank you to GitHub copilot for helping me for some parts of the code
+
+      Made by GameHugo
+     */
     private static JDA jda;
     public static void main(String[] args) throws InterruptedException {
         // Put the token in the first arg
