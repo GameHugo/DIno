@@ -38,6 +38,7 @@ public class Dino {
         jda.addEventListener(new Roles());
         jda.addEventListener(new Talk());
         jda.addEventListener(new Rizz());
+        jda.addEventListener(new Welcome());
 
         // Register the commands
         jda.updateCommands().addCommands(
