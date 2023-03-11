@@ -65,9 +65,17 @@ public class Dino {
                 if(!member.getUser().isBot() && !members.contains(member))
                     members.add(member);
         Random random = new Random();
+        final Member[] member = new Member[1];
         new Timer().scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                getJda().getPresence().setActivity(Activity.watching("@"+members.get(random.nextInt(members.size())).getEffectiveName()+"👀"));
+                for (int i = 0; i < 100; i++) {
+                    Member newMember = members.get(random.nextInt(members.size()));
+                    if(!newMember.equals(member[0])) {
+                        member[0] = newMember;
+                        break;
+                    }
+                }
+                getJda().getPresence().setActivity(Activity.watching("@"+member[0].getEffectiveName()+"👀"));
             }
         }, 0, 1000*5);
     }
