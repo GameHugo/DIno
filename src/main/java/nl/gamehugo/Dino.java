@@ -24,6 +24,10 @@ public class Dino {
      */
     private static JDA jda;
     public static void main(String[] args) throws InterruptedException {
+        if(args.length == 0) {
+            System.out.println("Please provide a token in the args");
+            return;
+        }
         // Put the token in the first arg
         // Example: java -jar Dino.jar <token>
         jda = JDABuilder.createDefault(args[0])

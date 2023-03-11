@@ -19,6 +19,7 @@ public class Talk extends ListenerAdapter{
             if(event.getOption("channel") == null) {
                 event.getChannel().sendMessage(Objects.requireNonNull(event.getOption("message")).getAsString()).queue();
                 event.getHook().sendMessage("Message send").queue();
+                return;
             }
             if(!Objects.requireNonNull(event.getOption("channel")).getAsChannel().getType().isMessage()) {
                 event.getHook().sendMessage("Channel is not a text channel").queue();
