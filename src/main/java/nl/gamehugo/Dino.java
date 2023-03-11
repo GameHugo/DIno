@@ -21,9 +21,11 @@ public class Dino {
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .enableIntents(GatewayIntent.GUILD_MEMBERS)
                 .build();
-
-        // optionally block until JDA is ready
+        // Wait for the bot to be ready
         jda.awaitReady();
+
+        // Add the listeners
+        jda.addEventListener(new Roles());
 
         // Set the status
         status();
@@ -48,7 +50,6 @@ public class Dino {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 getJda().getPresence().setActivity(Activity.watching("@"+members.get(random.nextInt(members.size())).getEffectiveName()+"👀"));
-                System.out.println("Status changed");
             }
         }, 0, 1000*5);
     }
