@@ -35,8 +35,8 @@ public class Dino {
         // Register the commands
         jda.updateCommands().addCommands(
                 Commands.slash("talk", "Talk in the bot's name")
-                        .addOption(OptionType.CHANNEL, "channel", "The channel to send the message in", true)
                         .addOption(OptionType.STRING, "message", "The content of the message", true)
+                        .addOption(OptionType.CHANNEL, "channel", "The channel to send the message in", false)
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
         ).queue();
 
