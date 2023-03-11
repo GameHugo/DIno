@@ -2,9 +2,13 @@ package nl.gamehugo;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -26,6 +30,15 @@ public class Dino {
 
         // Add the listeners
         jda.addEventListener(new Roles());
+        jda.addEventListener(new Talk());
+
+        // Register the commands
+        jda.updateCommands().addCommands(
+                Commands.slash("talk", "Talk in the bot's name")
+                        .addOption(OptionType.CHANNEL, "channel", "The channel to send the message in", true)
+                        .addOption(OptionType.STRING, "message", "The content of the message", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
+        ).queue();
 
         // Set the status
         status();
