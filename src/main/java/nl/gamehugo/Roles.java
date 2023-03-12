@@ -19,12 +19,12 @@ public class Roles extends ListenerAdapter {
 
     public Roles() {
         HashMap<String, String> description = new HashMap<>();
-        roles.put("Gamer", "1055144057170567209");
-        description.put("Gamer", "Als je een echte gamer bent");
-        roles.put("Minecraft", "1055136360345907272");
-        description.put("Minecraft", "Als je een echte minecraft speler bent");
-        roles.put("Gezellig", "1057984229935427585");
-        description.put("Gezellig", "Als je echt gezellig bent (Deze rol kan gepind worden als iemand gezelligheid wilt)");
+        roles.put("gamer", "1055144057170567209");
+        description.put("gamer", "Als je een echte gamer bent");
+        roles.put("minecraft", "1055136360345907272");
+        description.put("minecraft", "Als je een echte minecraft speler bent");
+        roles.put("gezellig", "1057984229935427585");
+        description.put("gezellig", "Als je echt gezellig bent (Deze rol kan gepind worden als iemand gezelligheid wilt)");
         if(channel == null) {
             System.out.println("Roles channel not found");
             return;
@@ -71,17 +71,17 @@ public class Roles extends ListenerAdapter {
         if(event.getChannel().getIdLong() != channel.getIdLong()) return;
         event.deferEdit().queue();
         if(event.getButton().getId() == null || event.getGuild() == null || event.getMember() == null) return;
-        if(!roles.containsKey(event.getButton().getLabel())) return;
+        if(!roles.containsKey(event.getButton().getId())) return;
         // check if member has the role already
-        if(event.getMember().getRoles().contains(Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getLabel()))))) {
+        if(event.getMember().getRoles().contains(Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getId()))))) {
             // take the role away
-            event.getGuild().removeRoleFromMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getLabel())))).queue();
+            event.getGuild().removeRoleFromMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getId())))).queue();
             // send message
-            event.getHook().setEphemeral(true).sendMessage("Je hebt de rol "+ Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getLabel()))).getAsMention()+" weg gehaald").queue();
+            event.getHook().setEphemeral(true).sendMessage("Je hebt de rol "+ Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getId()))).getAsMention()+" weg gehaald").queue();
             return;
         }
-        event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getLabel())))).queue();
+        event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getId())))).queue();
         // send message
-        event.getHook().setEphemeral(true).sendMessage("Je hebt de rol "+ Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getLabel()))).getAsMention()+" gekregen").queue();
+        event.getHook().setEphemeral(true).sendMessage("Je hebt de rol "+ Objects.requireNonNull(event.getGuild().getRoleById(roles.get(event.getButton().getId()))).getAsMention()+" gekregen").queue();
     }
 }
