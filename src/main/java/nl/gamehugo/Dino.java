@@ -44,6 +44,7 @@ public class Dino {
         jda.addEventListener(new Talk());
         jda.addEventListener(new Rizz());
         jda.addEventListener(new Welcome());
+        jda.addEventListener(new Clean());
 
         new Qod();
 
@@ -52,6 +53,9 @@ public class Dino {
                 Commands.slash("talk", "Talk in the bot's name")
                         .addOption(OptionType.STRING, "message", "The content of the message", true)
                         .addOption(OptionType.CHANNEL, "channel", "The channel to send the message in", false)
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)),
+                Commands.slash("clean", "Clean the chat")
+                        .addOption(OptionType.INTEGER, "amount", "The amount of messages to delete", true)
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)),
                 Commands.context(Command.Type.USER, "Rizz it up")
         ).queue();
