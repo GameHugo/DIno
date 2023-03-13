@@ -27,8 +27,11 @@ public class Dino {
     public static void main(String[] args) throws InterruptedException, IOException {
         if(args.length == 0) {
             System.out.println("Please provide a token in the args");
+            Thread.sleep(5000);
             return;
         }
+        for (int i = 0; i < 50; ++i) System.out.println(" "); // just to clear the console and not leak the token
+        System.out.println("Token provided starting DIno...");
         // Put the token in the first arg
         // Example: java -jar Dino.jar <token>
         jda = JDABuilder.createDefault(args[0])
