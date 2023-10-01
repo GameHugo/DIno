@@ -4,6 +4,9 @@
 # Target folder
 /target
 
+# dependency reduced version of the pom
+dependency-reduced-pom.xml
+
 # Log file
 *.log
 
