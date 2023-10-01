@@ -14,7 +14,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
-import java.io.IOException;
 import java.util.*;
 
 public class Dino {
@@ -24,7 +23,7 @@ public class Dino {
       Made by GameHugo
      */
     private static JDA jda;
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException {
         if(args.length == 0) {
             System.out.println("Please provide a token in the args");
             Thread.sleep(5000);
