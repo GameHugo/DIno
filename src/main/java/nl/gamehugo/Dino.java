@@ -49,8 +49,6 @@ public class Dino {
         jda.addEventListener(new Welcome());
         jda.addEventListener(new Clean());
 
-        new Qod();
-
         // Register the commands
         jda.updateCommands().addCommands(
                 Commands.slash("talk", "Talk in the bot's name")
