@@ -43,7 +43,6 @@ public class Dino {
         jda.awaitReady();
 
         // Add the listeners
-        jda.addEventListener(new Roles());
         jda.addEventListener(new Talk());
         jda.addEventListener(new Rizz());
         jda.addEventListener(new Welcome());
