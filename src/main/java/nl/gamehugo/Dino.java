@@ -18,13 +18,15 @@ import java.util.*;
 
 public class Dino {
     /**
-      Just a thank you to GitHub copilot for helping me for some parts of the code
-
-      Made by GameHugo
+     * Just a thank you to GitHub copilot for helping me for some parts of the code
+     * <p>
+     * Made by GameHugo
      */
     private static JDA jda;
+    private static Dino instance;
+
     public static void main(String[] args) throws InterruptedException {
-        if(args.length == 0) {
+        if (args.length == 0) {
             System.out.println("Please provide a token in the args");
             Thread.sleep(5000);
             return;
@@ -55,42 +57,51 @@ public class Dino {
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)),
                 Commands.slash("clean", "Clean the chat")
                         .addOption(OptionType.INTEGER, "amount", "The amount of messages to delete", true)
-                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)),
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)),
                 Commands.context(Command.Type.USER, "Rizz it up")
         ).queue();
 
         // Set the status
+        for (Guild guild : getJda().getGuilds())
+            for (Member member : guild.getMembers())
+                if (!member.getUser().isBot() && !members.contains(member))
+                    members.add(member);
         status();
 
-        System.out.println("Guilds: "+jda.getGuilds().size());
+        System.out.println("Guilds: " + jda.getGuilds().size());
     }
 
     public static JDA getJda() {
         return jda;
     }
 
-    private static boolean status = false;
+    public static List<Member> members = new ArrayList<>();
+    private static boolean startedStatus = false;
+
+    /**
+     * Sets the status of the bot to watching a random member
+     */
     private static void status() {
-        if(status) return;
-        status = true;
-        List<Member> members = new ArrayList<>();
-        for(Guild guild : getJda().getGuilds())
-            for(Member member : guild.getMembers())
-                if(!member.getUser().isBot() && !members.contains(member))
-                    members.add(member);
+        if (startedStatus) return;
+        startedStatus = true;
+
         Random random = new Random();
-        final Member[] member = new Member[1];
+        final Member[] currentMember = new Member[1];
         new Timer().scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 for (int i = 0; i < 100; i++) {
                     Member newMember = members.get(random.nextInt(members.size()));
-                    if(!newMember.equals(member[0])) {
-                        member[0] = newMember;
+                    if (!newMember.equals(currentMember[0])) {
+                        currentMember[0] = newMember;
                         break;
                     }
                 }
-                getJda().getPresence().setActivity(Activity.watching("@"+member[0].getEffectiveName()+"👀"));
+                getJda().getPresence().setActivity(Activity.watching("@" + currentMember[0].getEffectiveName() + "👀"));
             }
-        }, 0, 1000*5);
+        }, 0, 1000 * 5);
+    }
+
+    public static Dino getInstance() {
+        return instance;
     }
 }

@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Random;
 
 public class Welcome extends ListenerAdapter {
-    TextChannel channel = Dino.getJda().getTextChannelById("1055135994095087729");
-    Role role = Dino.getJda().getRoleById("1055141032259498014");
+    private final TextChannel channel = Dino.getJda().getTextChannelById("1055135994095087729");
+    private final Role role = Dino.getJda().getRoleById("1055141032259498014");
 
-    List<String> lines = List.of(
+    private final List<String> lines = List.of(
             "${user} Rawr! Welkom in de prehistorie van onze server!",
             "${user} Wees niet bang voor de dinos, ze bijten alleen als je niet hallo zegt.",
             "${user} Hoorde ik daar een brul? Oh wacht, dat was gewoon ons welkomstcomité.",
@@ -48,9 +48,10 @@ public class Welcome extends ListenerAdapter {
             "Hier bij Rawr zijn we allemaal een beetje dino-gek, net als ${user}. Welkom bij onze prehistorische wereld!"
     );
 
-    Random random = new Random();
+    private final Random random = new Random();
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
+        Dino.members.add(event.getMember());
         if(channel == null) return;
         if(role == null) {
             channel.sendMessage(event.getMember().getAsMention() + " je hebt nog geen role gekregen... RIP JOU LOL😝").queue();
