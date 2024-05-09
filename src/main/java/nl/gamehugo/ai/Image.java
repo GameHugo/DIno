@@ -60,7 +60,9 @@ public class Image extends ListenerAdapter {
                 return;
             }
             FileUpload fileUpload = FileUpload.fromData(file, "image.png");
-            event.getHook().sendMessage(prompt).addFiles(fileUpload).queue();
+            event.getHook().sendMessage("Original prompt: \""+image+"\"\n" +
+                    "Revised prompt: \""+prompt+"\"")
+                    .addFiles(fileUpload).queue();
         } catch (Exception e) {
             if(e.getMessage().contains("safety system")) {
                 event.getHook().sendMessage("The prompt is not safe to generate an image with").queue();
