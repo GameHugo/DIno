@@ -1,5 +1,6 @@
 package nl.gamehugo;
 
+import io.github.stefanbratanov.jvm.openai.OpenAI;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
@@ -13,6 +14,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import nl.gamehugo.ai.AIChannelTalking;
 import nl.gamehugo.ai.AITalking;
 import nl.gamehugo.ai.Image;
 
@@ -30,6 +32,7 @@ public class Dino {
     private static String openAIKey;
 
     public static void main(String[] args) throws InterruptedException {
+        instance = new Dino();
         if (args.length == 0) {
             System.out.println("Please provide a token in the args");
             Thread.sleep(5000);
@@ -59,6 +62,7 @@ public class Dino {
         jda.addEventListener(new Clean());
         if (openAIKey != null) {
             jda.addEventListener(new AITalking());
+            jda.addEventListener(new AIChannelTalking());
             jda.addEventListener(new Image());
         }
 
@@ -120,7 +124,11 @@ public class Dino {
         return instance;
     }
 
-    public static String getOpenAIKey() {
-        return openAIKey;
+    private OpenAI openAI;
+    public static OpenAI getOpenAI() {
+        if(instance.openAI == null) {
+            instance.openAI = OpenAI.newBuilder(openAIKey).build();
+        }
+        return instance.openAI;
     }
 }

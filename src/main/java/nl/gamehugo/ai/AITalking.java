@@ -65,7 +65,7 @@ public class AITalking extends ListenerAdapter {
     public void sendReply(String message, MessageReceivedEvent event) {
         String response;
         try {
-            OpenAI openAI = OpenAI.newBuilder(Dino.getOpenAIKey()).build();
+            OpenAI openAI = Dino.getOpenAI();
             ChatClient chatClient = openAI.chatClient();
             CreateChatCompletionRequest createChatCompletionRequest = CreateChatCompletionRequest.newBuilder()
                     .model(OpenAIModel.GPT_3_5_TURBO)

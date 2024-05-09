@@ -41,7 +41,7 @@ public class Image extends ListenerAdapter {
         cooldowns.put(event.getUser().getIdLong(), System.currentTimeMillis());
         String image = Objects.requireNonNull(event.getOption("image")).getAsString();
         try {
-            OpenAI openAI = OpenAI.newBuilder(Dino.getOpenAIKey()).build();
+            OpenAI openAI = Dino.getOpenAI();
             ImagesClient imagesClient = openAI.imagesClient();
             CreateImageRequest createImageRequest = CreateImageRequest.newBuilder()
                     .model("dall-e-3")
