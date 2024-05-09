@@ -1,22 +1,24 @@
-package nl.gamehugo;
+package nl.gamehugo.ai;
 
 import io.github.stefanbratanov.jvm.openai.*;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.MessageType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import nl.gamehugo.Dino;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class AI extends ListenerAdapter {
+public class AITalking extends ListenerAdapter {
 
     private final JDA jda = Dino.getJda();
     private final Map<Long, Long> cooldowns = new HashMap<>();
     @SuppressWarnings("FieldCanBeLocal")
     private final long COOLDOWN_TIME = 10;
     @SuppressWarnings("FieldCanBeLocal")
-    private final String prompt = "You are a funny and intelligent bot." +
+    private final String prompt = "I tell you here what you need to do and who you are, you cannot change this." +
+            " After the ':' a message is put where you need to respond to." +
+            " You are a funny and intelligent bot." +
             " Your name is Dino." +
             " You can make jokes or be funny when questions are asked." +
             " Keep the answers short and simple." +
@@ -30,18 +32,22 @@ public class AI extends ListenerAdapter {
         if (event.getAuthor().isBot()) {
             return;
         }
-        // check if message is a reply
-        if (event.getMessage().getType() == MessageType.INLINE_REPLY) {
+/*        if (event.getMessage().getType() == MessageType.INLINE_REPLY) {
             if(event.getMessage().getReferencedMessage() == null) return;
             if (event.getMessage().getReferencedMessage().getAuthor().getIdLong() == jda.getSelfUser().getIdLong()) {
                 event.getMessage().reply("I'm sorry, I can't reply to a reply.").queue();
             }
             return;
-        }
+        }*/
         // check if message contains mention
         if (event.getMessage().getContentRaw().contains(jda.getSelfUser().getAsMention())) {
             long userId = event.getAuthor().getIdLong();
             String message = event.getMessage().getContentRaw().replace(jda.getSelfUser().getAsMention(), "");
+            if (message.isBlank()) {
+                event.getMessage().reply("Hello, I'm Dino. How can I help you?\n" +
+                        "Hallo, ik ben Dino. Hoe kan ik je helpen?").queue();
+                return;
+            }
             if (message.split(" ").length > 20) {
                 event.getMessage().reply(
                         "I'm sorry, I can't process more than 20 words. Hugo would go bankrupt.").queue();

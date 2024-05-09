@@ -1,6 +1,5 @@
 package nl.gamehugo;
 
-import io.github.stefanbratanov.jvm.openai.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
@@ -14,6 +13,8 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import nl.gamehugo.ai.AITalking;
+import nl.gamehugo.ai.Image;
 
 import java.lang.Thread;
 import java.util.*;
@@ -56,8 +57,10 @@ public class Dino {
         jda.addEventListener(new Rizz());
         jda.addEventListener(new Welcome());
         jda.addEventListener(new Clean());
-        if (openAIKey != null)
-            jda.addEventListener(new AI());
+        if (openAIKey != null) {
+            jda.addEventListener(new AITalking());
+            jda.addEventListener(new Image());
+        }
 
         // Register the commands
         jda.updateCommands().addCommands(
@@ -68,7 +71,9 @@ public class Dino {
                 Commands.slash("clean", "Clean the chat")
                         .addOption(OptionType.INTEGER, "amount", "The amount of messages to delete", true)
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)),
-                Commands.context(Command.Type.USER, "Rizz it up")
+                Commands.context(Command.Type.USER, "Rizz it up"),
+                Commands.slash("image", "Generate an image")
+                        .addOption(OptionType.STRING, "image", "The prompt for the image", true)
         ).queue();
 
         // Set the status
