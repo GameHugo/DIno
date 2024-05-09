@@ -1,5 +1,6 @@
 package nl.gamehugo;
 
+import io.github.stefanbratanov.jvm.openai.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
@@ -14,6 +15,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
+import java.lang.Thread;
 import java.util.*;
 
 public class Dino {
@@ -24,6 +26,7 @@ public class Dino {
      */
     private static JDA jda;
     private static Dino instance;
+    private static String openAIKey;
 
     public static void main(String[] args) throws InterruptedException {
         if (args.length == 0) {
@@ -35,10 +38,15 @@ public class Dino {
         System.out.println("Token provided starting DIno...");
         // Put the token in the first arg
         // Example: java -jar Dino.jar <token>
+        if (args.length > 1) {
+            openAIKey = args[1];
+            System.out.println("OpenAI key provided");
+        }
         jda = JDABuilder.createDefault(args[0])
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
-                .enableIntents(GatewayIntent.GUILD_MEMBERS)
+                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES,
+                        GatewayIntent.MESSAGE_CONTENT, GatewayIntent.DIRECT_MESSAGES)
                 .build();
         // Wait for the bot to be ready
         jda.awaitReady();
@@ -48,6 +56,8 @@ public class Dino {
         jda.addEventListener(new Rizz());
         jda.addEventListener(new Welcome());
         jda.addEventListener(new Clean());
+        if (openAIKey != null)
+            jda.addEventListener(new AI());
 
         // Register the commands
         jda.updateCommands().addCommands(
@@ -103,5 +113,9 @@ public class Dino {
 
     public static Dino getInstance() {
         return instance;
+    }
+
+    public static String getOpenAIKey() {
+        return openAIKey;
     }
 }
