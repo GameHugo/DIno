@@ -104,7 +104,7 @@ public class AIChannelTalking extends ListenerAdapter {
                     ThreadRun retrievedRun = runsClient.retrieveRun(thread.id(), runId);
                     status = retrievedRun.status();
                     try {
-                        java.lang.Thread.sleep(500); // sleep to avoid spamming the API and to give the bot time to process
+                        java.lang.Thread.sleep(1000); // sleep to avoid spamming the API and to give the bot time to process
                     } catch (InterruptedException e) {
                         System.out.println("Thread interrupted, "+e.getMessage());
                     }
