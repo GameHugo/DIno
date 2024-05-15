@@ -97,13 +97,13 @@ public class AIChannelTalking extends ListenerAdapter {
                     System.out.println("AI Channel Talking: Channel not found");
                     return;
                 }
-                channel.sendTyping().queue();
                 String status = "in_progress";
                 while (status.equals("in_progress")) {
                     ThreadRun retrievedRun = runsClient.retrieveRun(thread.id(), runId);
                     status = retrievedRun.status();
+                    channel.sendTyping().queue();
                     try {
-                        java.lang.Thread.sleep(1000); // sleep to avoid spamming the API and to give the bot time to process
+                        java.lang.Thread.sleep(2000); // sleep to avoid spamming the API and to give the bot time to process
                     } catch (InterruptedException e) {
                         System.out.println("Thread interrupted, "+e.getMessage());
                     }
@@ -117,12 +117,15 @@ public class AIChannelTalking extends ListenerAdapter {
                 for (ThreadMessage m : messages) {
                     if (m.role().equals("assistant")) {
                         response = m.content().get(0).toString();
-                        response = response.substring(28, response.length() - 19); // remove the weird formatting
+                        response = response.substring(28, response.length() - 18); // remove the weird formatting
                         break;
                     }
                 }
 
                 // Reply with the response
+                if(response.isEmpty()) {
+                    response = "Ik weet het even niet. Vraag het nog eens.";
+                }
                 event.getMessage().reply(response).queue();
             });
         }
